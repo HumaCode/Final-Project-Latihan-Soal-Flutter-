@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:final_project/constant/r.dart';
 import 'package:final_project/view/login_page.dart';
 import 'package:flutter/material.dart';
 
@@ -15,8 +16,8 @@ class SplashScreen extends StatelessWidget {
     });
 
     return Scaffold(
-      backgroundColor: Color(0xff34dbeb),
-      body: Center(child: Image.asset("assets/auth/ic_splash.png")),
+      backgroundColor: R.colors.primary,
+      body: Center(child: Image.asset(R.assets.icSplash)),
     );
   }
 }
