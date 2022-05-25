@@ -1,4 +1,5 @@
 import 'package:final_project/constant/r.dart';
+import 'package:final_project/view/register_page.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
@@ -49,6 +50,9 @@ class _LoginPageState extends State<LoginPage> {
             ),
             const Spacer(),
             ButtonLogin(
+              onTap: () {
+                Navigator.of(context).pushNamed(RegisterPage.route);
+              },
               backgroundColor: Colors.white,
               borderColor: R.colors.primary,
               child: Row(
@@ -68,6 +72,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
             ButtonLogin(
+              onTap: () {},
               backgroundColor: R.colors.blackLogin,
               borderColor: R.colors.blackLogin,
               child: Row(
@@ -99,12 +104,14 @@ class ButtonLogin extends StatelessWidget {
     required this.backgroundColor,
     required this.child,
     required this.borderColor,
+    required this.onTap,
   }) : super(key: key);
 
   // properti berubah-ubah
   final Color backgroundColor;
   final Widget child;
   final Color borderColor;
+  final Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -114,19 +121,20 @@ class ButtonLogin extends StatelessWidget {
         vertical: 12.0,
       ),
       child: ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            primary: backgroundColor,
-            elevation: 0,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(25),
-              side: BorderSide(
-                color: borderColor,
-              ),
+        style: ElevatedButton.styleFrom(
+          primary: backgroundColor,
+          elevation: 0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(25),
+            side: BorderSide(
+              color: borderColor,
             ),
-            fixedSize: Size(MediaQuery.of(context).size.width * 0.8, 50),
           ),
-          onPressed: () {},
-          child: child),
+          fixedSize: Size(MediaQuery.of(context).size.width * 0.8, 50),
+        ),
+        onPressed: onTap,
+        child: child,
+      ),
     );
   }
 }

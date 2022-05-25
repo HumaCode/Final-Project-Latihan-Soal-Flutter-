@@ -12,12 +12,17 @@ class SplashScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     // timer
     Timer(const Duration(seconds: 5), () {
-      Navigator.of(context).pushNamed(LoginPage.route);
+      Navigator.of(context).pushReplacementNamed(LoginPage.route);
     });
 
     return Scaffold(
       backgroundColor: R.colors.primary,
-      body: Center(child: Image.asset(R.assets.icSplash)),
+      body: Center(
+        child: Image.asset(
+          R.assets.icSplash,
+          width: MediaQuery.of(context).size.width * 0.5,
+        ),
+      ),
     );
   }
 }
