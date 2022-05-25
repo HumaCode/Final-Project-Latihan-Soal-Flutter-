@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
+  static String route = "login_screen";
 
   @override
   State<LoginPage> createState() => _LoginPageState();
