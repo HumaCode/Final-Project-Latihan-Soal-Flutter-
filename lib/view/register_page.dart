@@ -33,7 +33,12 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       // resizeToAvoidBottomInset: false,
+      backgroundColor: const Color(0xfff0f3f5),
       appBar: AppBar(
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(25.0),
+                bottomRight: Radius.circular(25.0))),
         backgroundColor: Colors.white,
         elevation: 0,
         iconTheme: const IconThemeData(
