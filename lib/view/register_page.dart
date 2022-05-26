@@ -53,8 +53,8 @@ class _RegisterPageState extends State<RegisterPage> {
           padding: const EdgeInsets.only(bottom: 20.0),
           child: ButtonLogin(
             onTap: () {
-              print(emailController.text);
-              Navigator.of(context).pushNamed(MainPage.route);
+              Navigator.of(context)
+                  .pushNamedAndRemoveUntil(MainPage.route, (context) => false);
             },
             backgroundColor: R.colors.primary,
             borderColor: R.colors.primary,
