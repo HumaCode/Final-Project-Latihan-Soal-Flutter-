@@ -94,7 +94,7 @@ class _LoginPageState extends State<LoginPage> {
                   Navigator.of(context).pushNamed(RegisterPage.route);
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
+                    const SnackBar(
                       content: Text("Gagal Masuk"),
                       duration: Duration(seconds: 2),
                     ),
