@@ -22,33 +22,34 @@ class _HomePageState extends State<HomePage> {
             _builtTopBanner(context),
             _builtHomeListMapel(),
             Container(
-              margin: const EdgeInsets.symmetric(
-                horizontal: 20.0,
-              ),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    children: const [
-                      Text(
-                        "Terbaru",
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                    child: Text(
+                      "Terbaru",
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
                       ),
-                      // Spacer(),
-                    ],
+                    ),
                   ),
+                  const SizedBox(height: 10),
                   Container(
-                    height: 170,
+                    height: 150,
                     child: ListView.builder(
                       itemCount: 5,
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (context, index) {
-                        return Image.asset(R.assets.imgBanner);
+                        return Padding(
+                          padding: const EdgeInsets.only(left: 20.0),
+                          child: Image.asset(R.assets.imgBanner),
+                        );
                       },
                     ),
                   ),
+                  const SizedBox(height: 35),
                 ],
               ),
             )

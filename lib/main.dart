@@ -1,3 +1,4 @@
+import 'package:final_project/constant/r.dart';
 import 'package:final_project/view/login_page.dart';
 import 'package:final_project/view/main_page.dart';
 import 'package:final_project/view/mapel_page.dart';
@@ -17,10 +18,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Latihan Soal',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         textTheme: GoogleFonts.poppinsTextTheme(),
+        appBarTheme: AppBarTheme(
+          backgroundColor: R.colors.primary,
+        ),
         // This is the theme of your application.
         //
         // Try running your application with "flutter run". You'll see the

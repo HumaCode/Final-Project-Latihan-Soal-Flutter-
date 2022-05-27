@@ -12,9 +12,12 @@ class MapelPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text("Pilih Matapelajaran"),
       ),
-      body: ListView.builder(itemBuilder: (context, index) {
-        return GestureDetector(onTap: () {}, child: const MapelWidget());
-      }),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20.0),
+        child: ListView.builder(itemBuilder: (context, index) {
+          return GestureDetector(onTap: () {}, child: const MapelWidget());
+        }),
+      ),
     );
   }
 }
