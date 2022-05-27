@@ -1,6 +1,9 @@
 import 'package:final_project/constant/constant.dart';
 import 'package:final_project/constant/r.dart';
+import 'package:final_project/view/login_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -132,36 +135,46 @@ class _ProfilePageState extends State<ProfilePage> {
               ],
             ),
           ),
-          Container(
-            margin: const EdgeInsets.symmetric(
-              horizontal: 13.0,
-            ),
-            padding:
-                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(
-                  blurRadius: 7,
-                  color: Colors.black.withOpacity(0.25),
-                ),
-              ],
-            ),
-            child: Row(
-              children: [
-                const Icon(
-                  Icons.exit_to_app,
-                  color: Colors.red,
-                ),
-                const SizedBox(width: 5),
-                Text(
-                  "Title",
-                  style: user.copyWith(
+          GestureDetector(
+            onTap: () async {
+              await GoogleSignIn().signOut();
+
+              await FirebaseAuth.instance.signOut();
+
+              Navigator.of(context)
+                  .pushNamedAndRemoveUntil(LoginPage.route, (route) => false);
+            },
+            child: Container(
+              margin: const EdgeInsets.symmetric(
+                horizontal: 13.0,
+              ),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    blurRadius: 7,
+                    color: Colors.black.withOpacity(0.25),
+                  ),
+                ],
+              ),
+              child: Row(
+                children: [
+                  const Icon(
+                    Icons.exit_to_app,
                     color: Colors.red,
                   ),
-                ),
-              ],
+                  const SizedBox(width: 5),
+                  Text(
+                    "Keluar",
+                    style: user.copyWith(
+                      color: Colors.red,
+                    ),
+                  ),
+                ],
+              ),
             ),
           )
         ],

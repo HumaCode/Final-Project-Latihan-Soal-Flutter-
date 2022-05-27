@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:final_project/constant/r.dart';
 import 'package:final_project/view/login_page.dart';
+import 'package:final_project/view/main_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatelessWidget {
@@ -12,7 +14,15 @@ class SplashScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     // timer
     Timer(const Duration(seconds: 5), () {
-      Navigator.of(context).pushReplacementNamed(LoginPage.route);
+      final user = FirebaseAuth.instance.currentUser;
+
+      if (user != null) {
+//TODO arahkan ke halaman register / home
+
+        Navigator.of(context).pushReplacementNamed(MainPage.route);
+      } else {
+        Navigator.of(context).pushReplacementNamed(LoginPage.route);
+      }
     });
 
     return Scaffold(
