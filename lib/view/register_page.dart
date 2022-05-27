@@ -1,3 +1,4 @@
+import 'package:final_project/constant/constant.dart';
 import 'package:final_project/constant/r.dart';
 import 'package:final_project/view/login_page.dart';
 import 'package:final_project/view/main_page.dart';
@@ -46,13 +47,9 @@ class _RegisterPageState extends State<RegisterPage> {
           iconTheme: const IconThemeData(
             color: Colors.black,
           ),
-          title: const Text(
-            "Yuk isi data diri",
-            style: TextStyle(
-              color: Colors.black,
-              fontWeight: FontWeight.w700,
-              fontSize: 18,
-            ),
+          title: Text(
+            R.strings.register,
+            style: registerTitle,
           ),
         ),
       ),
@@ -68,11 +65,7 @@ class _RegisterPageState extends State<RegisterPage> {
             borderColor: R.colors.primary,
             child: Text(
               R.strings.daftar,
-              style: const TextStyle(
-                fontSize: 17,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
+              style: buttonLogin,
             ),
           ),
         ),
@@ -88,12 +81,12 @@ class _RegisterPageState extends State<RegisterPage> {
                 hintText: 'Email Anda',
                 title: 'Email',
               ),
-              const SizedBox(height: 5),
+              const SizedBox(height: 10),
               const RegisterTextField(
                 hintText: 'Nama Lengkap Anda',
                 title: 'Nama Lengkap',
               ),
-              const SizedBox(height: 5),
+              const SizedBox(height: 10),
               const Text(
                 "Jenis Kelamin",
                 style: TextStyle(
@@ -101,7 +94,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              const SizedBox(height: 5),
+              const SizedBox(height: 10),
               Row(
                 children: [
                   Expanded(
@@ -172,7 +165,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                 ],
               ),
-              const SizedBox(height: 5),
+              const SizedBox(height: 10),
               const Text(
                 "Kelas",
                 style: TextStyle(
@@ -206,7 +199,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       }),
                 ),
               ),
-              const SizedBox(height: 5),
+              const SizedBox(height: 10),
               const RegisterTextField(
                 hintText: 'Nama Sekolah',
                 title: 'Nama Sekolah',

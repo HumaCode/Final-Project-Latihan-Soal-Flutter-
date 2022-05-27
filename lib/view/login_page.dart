@@ -1,7 +1,7 @@
+import 'package:final_project/constant/constant.dart';
 import 'package:final_project/constant/r.dart';
 import 'package:final_project/view/register_page.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -22,11 +22,11 @@ class _LoginPageState extends State<LoginPage> {
           children: [
             Align(
               alignment: Alignment.topLeft,
-              child: Text(
-                R.strings.login,
-                style: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w700,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 15.0),
+                child: Text(
+                  R.strings.login,
+                  style: login,
                 ),
               ),
             ),
@@ -35,7 +35,7 @@ class _LoginPageState extends State<LoginPage> {
             const SizedBox(height: 35),
             Text(
               R.strings.welcome,
-              style: const TextStyle(
+              style: login.copyWith(
                 fontSize: 22,
                 fontWeight: FontWeight.w500,
               ),
@@ -43,9 +43,7 @@ class _LoginPageState extends State<LoginPage> {
             Text(
               R.strings.loginDescription,
               textAlign: TextAlign.center,
-              style: GoogleFonts.poppins().copyWith(
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
+              style: subTitle.copyWith(
                 color: R.colors.greySubtitle,
               ),
             ),
@@ -63,9 +61,7 @@ class _LoginPageState extends State<LoginPage> {
                   const SizedBox(width: 15),
                   Text(
                     R.strings.loginWithGoogle,
-                    style: TextStyle(
-                      fontSize: 17,
-                      fontWeight: FontWeight.w500,
+                    style: buttonLogin.copyWith(
                       color: R.colors.blackLogin,
                     ),
                   ),
@@ -83,9 +79,7 @@ class _LoginPageState extends State<LoginPage> {
                   const SizedBox(width: 15),
                   Text(
                     R.strings.loginWithAppleId,
-                    style: const TextStyle(
-                      fontSize: 17,
-                      fontWeight: FontWeight.w500,
+                    style: buttonLogin.copyWith(
                       color: Colors.white,
                     ),
                   ),
