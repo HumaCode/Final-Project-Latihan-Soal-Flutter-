@@ -1,5 +1,5 @@
 import 'package:final_project/constant/r.dart';
-import 'package:final_project/view/mapel_page.dart';
+import 'package:final_project/view/main/latihan_soal/mapel_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -25,7 +25,7 @@ class _HomePageState extends State<HomePage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Padding(
+                  const Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20.0),
                     child: Text(
                       "Terbaru",

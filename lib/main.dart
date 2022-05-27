@@ -1,7 +1,8 @@
 import 'package:final_project/constant/r.dart';
 import 'package:final_project/view/login_page.dart';
+import 'package:final_project/view/main/latihan_soal/paket_soal_page.dart';
 import 'package:final_project/view/main_page.dart';
-import 'package:final_project/view/mapel_page.dart';
+import 'package:final_project/view/main/latihan_soal/mapel_page.dart';
 import 'package:final_project/view/register_page.dart';
 import 'package:final_project/view/splash_screen.dart';
 import 'package:flutter/material.dart';
@@ -44,6 +45,7 @@ class MyApp extends StatelessWidget {
         RegisterPage.route: (context) => const RegisterPage(),
         MainPage.route: (context) => const MainPage(),
         MapelPage.route: (context) => const MapelPage(),
+        PaketSoalPage.route: (context) => const PaketSoalPage(),
       },
     );
   }
