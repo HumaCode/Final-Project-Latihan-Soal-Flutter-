@@ -5,9 +5,16 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "final_project_web",
+            "request": "launch",
+            "type": "dart",
+            "deviceId": "chrome",
+            // "args": ["--web-port","5000"]
+        },
+        {
             "name": "final_project",
             "request": "launch",
-            "type": "dart"
+            "type": "dart",
         },
         {
             "name": "final_project (profile mode)",
