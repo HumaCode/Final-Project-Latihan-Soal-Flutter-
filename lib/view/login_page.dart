@@ -1,5 +1,8 @@
 import 'package:final_project/constant/constant.dart';
 import 'package:final_project/constant/r.dart';
+import 'package:final_project/constant/repository/auth_api.dart';
+import 'package:final_project/models/user_by_email.dart';
+import 'package:final_project/view/main_page.dart';
 import 'package:final_project/view/register_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
@@ -91,7 +94,16 @@ class _LoginPageState extends State<LoginPage> {
                 final user = FirebaseAuth.instance.currentUser;
 
                 if (user != null) {
-                  Navigator.of(context).pushNamed(RegisterPage.route);
+                  // pemanggilan api
+                  final dataUser = await AuthApi().getUserByEmail(user.email);
+                  if (dataUser != null) {
+                    final data = UserByEmail.fromJson(dataUser);
+                    if (data.status == 1) {
+                      Navigator.of(context).pushNamed(MainPage.route);
+                    } else {
+                      Navigator.of(context).pushNamed(RegisterPage.route);
+                    }
+                  }
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
