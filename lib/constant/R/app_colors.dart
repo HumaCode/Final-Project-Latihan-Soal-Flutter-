@@ -8,4 +8,6 @@ class AppColor {
   Color blackLogin = const Color(0xff1A1F26);
   Color greyBorder = const Color(0xffD6D6D6);
   Color greyHintText = const Color(0xffaaaaaa);
+  Color pink = const Color(0xffFFDCDC);
+  Color iconColor = Colors.blue;
 }

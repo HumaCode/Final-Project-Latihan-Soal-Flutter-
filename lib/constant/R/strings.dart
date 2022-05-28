@@ -8,4 +8,5 @@ class Strings {
   String daftar = "DAFTAR";
   String register = "Yuk isi data diri";
   String identitas = "Identitas Diri";
+  String inputChat = "Tulis Pesan Disini...";
 }

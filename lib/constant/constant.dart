@@ -9,8 +9,9 @@ TextStyle buttonLogin =
 TextStyle registerTitle = const TextStyle(
     color: Colors.black, fontWeight: FontWeight.w700, fontSize: 18);
 
-TextStyle profile = const TextStyle(color: Colors.white);
+TextStyle chating = const TextStyle(fontSize: 12, color: Color(0xff5200FF));
 
+TextStyle profile = const TextStyle(color: Colors.white);
 TextStyle profile2 = const TextStyle(fontSize: 16);
 TextStyle profile3 = TextStyle(color: R.colors.greySubtitle, fontSize: 13);
 TextStyle profile4 = const TextStyle(fontSize: 14);
