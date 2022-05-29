@@ -1,7 +1,8 @@
 import 'package:final_project/constant/constant.dart';
 import 'package:final_project/constant/r.dart';
-import 'package:final_project/constant/repository/auth_api.dart';
+import 'package:final_project/models/network_response.dart';
 import 'package:final_project/models/user_by_email.dart';
+import 'package:final_project/repository/auth_api.dart';
 import 'package:final_project/view/main_page.dart';
 import 'package:final_project/view/register_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -95,9 +96,9 @@ class _LoginPageState extends State<LoginPage> {
 
                 if (user != null) {
                   // pemanggilan api
-                  final dataUser = await AuthApi().getUserByEmail(user.email);
-                  if (dataUser != null) {
-                    final data = UserByEmail.fromJson(dataUser);
+                  final dataUser = await AuthApi().getUserByEmail();
+                  if (dataUser.status == Status.success) {
+                    final data = UserByEmail.fromJson(dataUser.data!);
                     if (data.status == 1) {
                       Navigator.of(context).pushNamed(MainPage.route);
                     } else {
