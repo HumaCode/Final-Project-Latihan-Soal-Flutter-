@@ -4,6 +4,7 @@ import 'package:final_project/models/mapel_list.dart';
 import 'package:final_project/models/network_response.dart';
 import 'package:final_project/repository/latihan_soal_api.dart';
 import 'package:final_project/view/main/latihan_soal/mapel_page.dart';
+import 'package:final_project/view/main/latihan_soal/paket_soal_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -15,9 +16,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  MapelList? mapelList;
-
 // mapel
+  MapelList? mapelList;
   getMapel() async {
     final mapelResult = await LatihanSoalApi().getMapel();
 
@@ -162,10 +162,21 @@ class _HomePageState extends State<HomePage> {
                   itemCount: list.data!.length > 3 ? 3 : list.data!.length,
                   itemBuilder: (BuildContext context, int index) {
                     final currentMapel = list.data![index];
-                    return MapelWidget(
-                      title: currentMapel.courseName!,
-                      totalPacket: currentMapel.jumlahMateri!,
-                      totalDone: currentMapel.jumlahDone!,
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => PaketSoalPage(
+                              id: currentMapel.courseId!,
+                            ),
+                          ),
+                        );
+                      },
+                      child: MapelWidget(
+                        title: currentMapel.courseName!,
+                        totalPacket: currentMapel.jumlahMateri!,
+                        totalDone: currentMapel.jumlahDone!,
+                      ),
                     );
                   },
                 ),

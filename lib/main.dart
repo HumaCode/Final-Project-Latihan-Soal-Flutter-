@@ -51,7 +51,7 @@ class MyApp extends StatelessWidget {
         RegisterPage.route: (context) => const RegisterPage(),
         MainPage.route: (context) => const MainPage(),
         // MapelPage.route: (context) => const MapelPage(),
-        PaketSoalPage.route: (context) => const PaketSoalPage(),
+        // PaketSoalPage.route: (context) => const PaketSoalPage(),
       },
     );
   }

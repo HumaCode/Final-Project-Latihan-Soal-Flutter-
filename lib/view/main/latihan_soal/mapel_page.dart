@@ -24,7 +24,13 @@ class MapelPage extends StatelessWidget {
               final currentMapel = mapel.data![index];
               return GestureDetector(
                   onTap: () {
-                    Navigator.of(context).pushNamed(PaketSoalPage.route);
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => PaketSoalPage(
+                          id: currentMapel.courseId!,
+                        ),
+                      ),
+                    );
                   },
                   child: MapelWidget(
                     title: currentMapel.courseName!,

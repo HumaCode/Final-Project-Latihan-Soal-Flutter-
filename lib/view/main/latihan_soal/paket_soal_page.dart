@@ -1,16 +1,39 @@
 import 'package:final_project/constant/r.dart';
+import 'package:final_project/models/network_response.dart';
+import 'package:final_project/models/paket_soal_list.dart';
+import 'package:final_project/repository/latihan_soal_api.dart';
 import 'package:flutter/material.dart';
 
 class PaketSoalPage extends StatefulWidget {
-  const PaketSoalPage({Key? key}) : super(key: key);
+  const PaketSoalPage({Key? key, required this.id}) : super(key: key);
 
   static String route = "paket_soal";
+
+  final String id;
 
   @override
   State<PaketSoalPage> createState() => _PaketSoalPageState();
 }
 
 class _PaketSoalPageState extends State<PaketSoalPage> {
+// parsing data paket soal
+  PaketSoalList? paketSoalList;
+  getPaketSoal() async {
+    final mapelResult = await LatihanSoalApi().getPaketSoal(widget.id);
+
+    if (mapelResult.status == Status.success) {
+      paketSoalList = PaketSoalList.fromJson(mapelResult.data!);
+      setState(() {});
+    }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getPaketSoal();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,19 +53,59 @@ class _PaketSoalPageState extends State<PaketSoalPage> {
               ),
             ),
             Expanded(
-              child: GridView.count(
-                mainAxisSpacing: 10,
-                crossAxisSpacing: 10,
-                crossAxisCount: 2,
-                childAspectRatio: 3 / 2,
-                children: const [
-                  PaketSoalWidget(),
-                  PaketSoalWidget(),
-                  PaketSoalWidget(),
-                  PaketSoalWidget(),
-                ],
-              ),
-            ),
+              child: paketSoalList == null
+                  ? const Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  : SingleChildScrollView(
+                      child: Wrap(
+                          children: List.generate(
+                        paketSoalList!.data!.length,
+                        (index) {
+                          final currentPaketSoal = paketSoalList!.data![index];
+                          return Container(
+                            width: MediaQuery.of(context).size.width * 0.4,
+                            padding: EdgeInsets.all(3),
+                            child: PaketSoalWidget(
+                              data: currentPaketSoal,
+                            ),
+                          );
+                        },
+                      ).toList()
+
+                          // const [
+                          //   PaketSoalWidget(),
+                          //   PaketSoalWidget(),
+                          //   PaketSoalWidget(),
+                          //   PaketSoalWidget(),
+                          // ],
+                          ),
+                    ),
+            )
+
+            // GridView.count(
+            //     mainAxisSpacing: 10,
+            //     crossAxisSpacing: 10,
+            //     crossAxisCount: 2,
+            //     childAspectRatio: 4 / 3,
+            //     children: List.generate(
+            //       paketSoalList!.data!.length,
+            //       (index) {
+            //         final currentPaketSoal = paketSoalList!.data![index];
+            //         return PaketSoalWidget(
+            //           data: currentPaketSoal,
+            //         );
+            //       },
+            //     ).toList()
+
+            //     // const [
+            //     //   PaketSoalWidget(),
+            //     //   PaketSoalWidget(),
+            //     //   PaketSoalWidget(),
+            //     //   PaketSoalWidget(),
+            //     // ],
+            //     ),
+            ,
           ],
         ),
       ),
@@ -53,7 +116,10 @@ class _PaketSoalPageState extends State<PaketSoalPage> {
 class PaketSoalWidget extends StatelessWidget {
   const PaketSoalWidget({
     Key? key,
+    required this.data,
   }) : super(key: key);
+
+  final paketSoalData data;
 
   @override
   Widget build(BuildContext context) {
@@ -78,14 +144,14 @@ class PaketSoalWidget extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 4),
-          const Text(
-            "Aljabar",
-            style: TextStyle(
+          Text(
+            data.exerciseTitle!,
+            style: const TextStyle(
               fontWeight: FontWeight.bold,
             ),
           ),
           Text(
-            "0/0 Paket Soal",
+            "${data.jumlahDone}/${data.jumlahSoal} Paket Soal",
             style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 10,
