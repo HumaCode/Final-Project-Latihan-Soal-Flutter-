@@ -2,6 +2,7 @@ import 'package:final_project/constant/r.dart';
 import 'package:final_project/models/network_response.dart';
 import 'package:final_project/models/paket_soal_list.dart';
 import 'package:final_project/repository/latihan_soal_api.dart';
+import 'package:final_project/view/main/latihan_soal/kerjakan_latihan.dart';
 import 'package:flutter/material.dart';
 
 class PaketSoalPage extends StatefulWidget {
@@ -57,55 +58,55 @@ class _PaketSoalPageState extends State<PaketSoalPage> {
                   ? const Center(
                       child: CircularProgressIndicator(),
                     )
-                  : SingleChildScrollView(
-                      child: Wrap(
-                          children: List.generate(
+                  :
+                  // : SingleChildScrollView(
+                  //     child: Wrap(
+                  //         children: List.generate(
+                  //       paketSoalList!.data!.length,
+                  //       (index) {
+                  //         final currentPaketSoal = paketSoalList!.data![index];
+                  //         return Container(
+                  //           width: MediaQuery.of(context).size.width * 0.4,
+                  //           padding: EdgeInsets.all(3),
+                  //           child: PaketSoalWidget(
+                  //             data: currentPaketSoal,
+                  //           ),
+                  //         );
+                  //       },
+                  //     ).toList()
+
+                  //         // const [
+                  //         //   PaketSoalWidget(),
+                  //         //   PaketSoalWidget(),
+                  //         //   PaketSoalWidget(),
+                  //         //   PaketSoalWidget(),
+                  //         // ],
+                  //         ),
+                  //   ),
+
+                  GridView.count(
+                      mainAxisSpacing: 10,
+                      crossAxisSpacing: 10,
+                      crossAxisCount: 2,
+                      childAspectRatio: 5 / 4,
+                      children: List.generate(
                         paketSoalList!.data!.length,
                         (index) {
                           final currentPaketSoal = paketSoalList!.data![index];
-                          return Container(
-                            width: MediaQuery.of(context).size.width * 0.4,
-                            padding: EdgeInsets.all(3),
-                            child: PaketSoalWidget(
-                              data: currentPaketSoal,
-                            ),
+                          return PaketSoalWidget(
+                            data: currentPaketSoal,
                           );
                         },
                       ).toList()
 
-                          // const [
-                          //   PaketSoalWidget(),
-                          //   PaketSoalWidget(),
-                          //   PaketSoalWidget(),
-                          //   PaketSoalWidget(),
-                          // ],
-                          ),
-                    ),
-            )
-
-            // GridView.count(
-            //     mainAxisSpacing: 10,
-            //     crossAxisSpacing: 10,
-            //     crossAxisCount: 2,
-            //     childAspectRatio: 4 / 3,
-            //     children: List.generate(
-            //       paketSoalList!.data!.length,
-            //       (index) {
-            //         final currentPaketSoal = paketSoalList!.data![index];
-            //         return PaketSoalWidget(
-            //           data: currentPaketSoal,
-            //         );
-            //       },
-            //     ).toList()
-
-            //     // const [
-            //     //   PaketSoalWidget(),
-            //     //   PaketSoalWidget(),
-            //     //   PaketSoalWidget(),
-            //     //   PaketSoalWidget(),
-            //     // ],
-            //     ),
-            ,
+                      // const [
+                      //   PaketSoalWidget(),
+                      //   PaketSoalWidget(),
+                      //   PaketSoalWidget(),
+                      //   PaketSoalWidget(),
+                      // ],
+                      ),
+            ),
           ],
         ),
       ),
@@ -123,41 +124,52 @@ class PaketSoalWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        color: Colors.white,
-      ),
-      padding: const EdgeInsets.all(13.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: Colors.blue.withOpacity(0.2),
-            ),
-            padding: const EdgeInsets.all(12),
-            child: Image.asset(
-              R.assets.icNote,
-              width: 14,
+    return GestureDetector(
+      onTap: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => KerjakanLatihan(
+              id: data.exerciseId!,
             ),
           ),
-          const SizedBox(height: 4),
-          Text(
-            data.exerciseTitle!,
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
+        );
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: Colors.white,
+        ),
+        padding: const EdgeInsets.all(13.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Colors.blue.withOpacity(0.2),
+              ),
+              padding: const EdgeInsets.all(12),
+              child: Image.asset(
+                R.assets.icNote,
+                width: 14,
+              ),
             ),
-          ),
-          Text(
-            "${data.jumlahDone}/${data.jumlahSoal} Paket Soal",
-            style: TextStyle(
+            const SizedBox(height: 4),
+            Text(
+              data.exerciseTitle!,
+              style: const TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 10,
-                color: R.colors.greySubtitleHome),
-          ),
-        ],
+              ),
+            ),
+            Text(
+              "${data.jumlahDone}/${data.jumlahSoal} Paket Soal",
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 10,
+                  color: R.colors.greySubtitleHome),
+            ),
+          ],
+        ),
       ),
     );
   }

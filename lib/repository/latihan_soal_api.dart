@@ -84,12 +84,15 @@ class LatihanSoalApi {
     return result;
   }
 
-  // register
-  // Future<NetworkResponse> postRegister(body) async {
-  //   final result = await _postRequest(
-  //     endpoint: ApiUrl.userRegistrasi,
-  //     body: body,
-  //   );
-  //   return result;
-  // }
+  // mengambil sial berdasarkan id
+  Future<NetworkResponse> postQuestionList(id) async {
+    final result = await _postRequest(
+      endpoint: ApiUrl.latihanKerjakanSoal,
+      body: {
+        "exercise_id": id,
+        "user_email": UserEmail.getUserEmail(),
+      },
+    );
+    return result;
+  }
 }
