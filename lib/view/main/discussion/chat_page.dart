@@ -1,12 +1,18 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:final_project/constant/constant.dart';
 import 'package:final_project/constant/r.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
 class ChatPage extends StatefulWidget {
-  const ChatPage({Key? key}) : super(key: key);
+  const ChatPage({Key? key, this.id}) : super(key: key);
+
+  final String? id;
 
   @override
   State<ChatPage> createState() => _ChatPageState();
@@ -160,7 +166,25 @@ class _ChatPageState extends State<ChatPage> {
                                   controller: textController,
                                   decoration: InputDecoration(
                                     suffixIcon: IconButton(
-                                      onPressed: () {},
+                                      onPressed: () async {
+                                        final imgResult = await ImagePicker
+                                            .platform
+                                            .pickImage(
+                                                source: ImageSource.camera);
+
+                                        if (imgResult != null) {
+                                          File file = File(imgResult.path);
+                                          final name =
+                                              imgResult.path.split("/");
+                                          String ref =
+                                              "chat/${widget.id}/${user!.uid}/${name.last}";
+
+                                          FirebaseStorage.instance
+                                              .ref()
+                                              .child(ref)
+                                              .putFile(file);
+                                        }
+                                      },
                                       icon: Icon(
                                         Icons.camera_alt,
                                         color: R.colors.iconColor,
