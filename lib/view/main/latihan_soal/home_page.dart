@@ -5,6 +5,7 @@ import 'package:final_project/models/network_response.dart';
 import 'package:final_project/repository/latihan_soal_api.dart';
 import 'package:final_project/view/main/latihan_soal/mapel_page.dart';
 import 'package:final_project/view/main/latihan_soal/paket_soal_page.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -36,6 +37,29 @@ class _HomePageState extends State<HomePage> {
       bannerList = BannerList.fromJson(banner.data!);
       setState(() {});
     }
+  }
+
+  // notifikasi
+  setupFcm() async {
+    // Get any messages which caused the application to open from
+    // a terminated state.
+    RemoteMessage? initialMessage =
+        await FirebaseMessaging.instance.getInitialMessage();
+
+    // If the message also contains a data property with a "type" of "chat",
+    // navigate to a chat screen
+    // if (initialMessage != null) {
+    //   _handleMessage(initialMessage);
+    // }
+
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      print('Got a message whilst in the foreground!');
+      print('Message data: ${message.data}');
+
+      if (message.notification != null) {
+        print('Message also contained a notification: ${message.notification}');
+      }
+    });
   }
 
   @override
