@@ -167,8 +167,7 @@ class _ChatPageState extends State<ChatPage> {
                                   decoration: InputDecoration(
                                     suffixIcon: IconButton(
                                       onPressed: () async {
-                                        final imgResult = await ImagePicker
-                                            .platform
+                                        final imgResult = await ImagePicker()
                                             .pickImage(
                                                 source: ImageSource.camera);
 
@@ -176,13 +175,37 @@ class _ChatPageState extends State<ChatPage> {
                                           File file = File(imgResult.path);
                                           final name =
                                               imgResult.path.split("/");
-                                          String ref =
-                                              "chat/${widget.id}/${user!.uid}/${name.last}";
 
-                                          FirebaseStorage.instance
-                                              .ref()
-                                              .child(ref)
-                                              .putFile(file);
+                                          String room = widget.id ?? "kimia";
+                                          String ref =
+                                              "chat/$room/${user!.uid}/${imgResult.name}";
+
+                                          final imgResUpload =
+                                              await FirebaseStorage.instance
+                                                  .ref()
+                                                  .child(ref)
+                                                  .putFile(file);
+
+                                          final url = await imgResUpload.ref
+                                              .getDownloadURL();
+
+                                          final chatContent = {
+                                            "nama": user.displayName,
+                                            "uid": user.uid,
+                                            "content": textController.text,
+                                            "email": user.email,
+                                            "photo": user.photoURL,
+                                            "ref": ref,
+                                            "type": "file",
+                                            "file_url": url,
+                                            "time":
+                                                FieldValue.serverTimestamp(),
+                                          };
+                                          chat
+                                              .add(chatContent)
+                                              .whenComplete(() {
+                                            textController.clear();
+                                          });
                                         }
                                       },
                                       icon: Icon(
@@ -224,6 +247,9 @@ class _ChatPageState extends State<ChatPage> {
                           "content": textController.text,
                           "email": user.email,
                           "photo": user.photoURL,
+                          "ref": null,
+                          "type": "text",
+                          "file_url": null,
                           "file_url": "user.photoURL",
                           "time": FieldValue.serverTimestamp(),
                         };
