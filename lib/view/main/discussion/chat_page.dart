@@ -111,10 +111,21 @@ class _ChatPageState extends State<ChatPage> {
                                           : const Radius.circular(10),
                                     ),
                                   ),
-                                  child: Text(
-                                    currentChat["content"],
-                                    style: profile2,
-                                  ),
+                                  child: currentChat["type"] == "file"
+                                      ? Image.network(
+                                          currentChat["file_url"],
+                                          errorBuilder:
+                                              (context, error, stackTrace) {
+                                            return Container(
+                                              padding: const EdgeInsets.all(10),
+                                              child: const Icon(Icons.warning),
+                                            );
+                                          },
+                                        )
+                                      : Text(
+                                          currentChat["content"],
+                                          style: profile2,
+                                        ),
                                 ),
                                 Text(
                                   currentDate == null
@@ -169,7 +180,9 @@ class _ChatPageState extends State<ChatPage> {
                                       onPressed: () async {
                                         final imgResult = await ImagePicker()
                                             .pickImage(
-                                                source: ImageSource.camera);
+                                                source: ImageSource.camera,
+                                                maxHeight: 500,
+                                                maxWidth: 500);
 
                                         if (imgResult != null) {
                                           File file = File(imgResult.path);
@@ -250,7 +263,6 @@ class _ChatPageState extends State<ChatPage> {
                           "ref": null,
                           "type": "text",
                           "file_url": null,
-                          "file_url": "user.photoURL",
                           "time": FieldValue.serverTimestamp(),
                         };
                         chat.add(chatContent).whenComplete(() {
