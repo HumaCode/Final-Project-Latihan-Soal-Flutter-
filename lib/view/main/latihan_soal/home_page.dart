@@ -43,6 +43,9 @@ class _HomePageState extends State<HomePage> {
   setupFcm() async {
     // Get any messages which caused the application to open from
     // a terminated state.
+    final tokenFcm = await FirebaseMessaging.instance.getToken();
+    print("tokenFcm: $tokenFcm");
+
     RemoteMessage? initialMessage =
         await FirebaseMessaging.instance.getInitialMessage();
 
@@ -52,6 +55,7 @@ class _HomePageState extends State<HomePage> {
     //   _handleMessage(initialMessage);
     // }
 
+    // FirebaseMessaging.onMessageOpenedApp.listen((event) {});
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       print('Got a message whilst in the foreground!');
       print('Message data: ${message.data}');
@@ -68,6 +72,7 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     getMapel();
     getBanner();
+    setupFcm();
   }
 
   @override

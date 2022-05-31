@@ -1,8 +1,6 @@
 import 'package:final_project/constant/r.dart';
 import 'package:final_project/view/login_page.dart';
-import 'package:final_project/view/main/latihan_soal/paket_soal_page.dart';
 import 'package:final_project/view/main_page.dart';
-import 'package:final_project/view/main/latihan_soal/mapel_page.dart';
 import 'package:final_project/view/register_page.dart';
 import 'package:final_project/view/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -21,6 +19,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
   await Firebase.initializeApp(
       // options: DefaultFirebaseOptions.currentPlatform,
       );
