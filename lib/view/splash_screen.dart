@@ -10,13 +10,20 @@ import 'package:final_project/view/register_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class SplashScreen extends StatelessWidget {
+class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
 
   static String route = "splash_screen";
 
   @override
-  Widget build(BuildContext context) {
+  State<SplashScreen> createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
     // timer
     Timer(const Duration(seconds: 5), () async {
       final user = UserEmail.getUserEmail();
@@ -36,7 +43,10 @@ class SplashScreen extends StatelessWidget {
         Navigator.of(context).pushReplacementNamed(LoginPage.route);
       }
     });
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: R.colors.primary,
       body: Center(
