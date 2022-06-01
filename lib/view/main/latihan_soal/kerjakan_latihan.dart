@@ -1,3 +1,4 @@
+import 'package:final_project/constant/r.dart';
 import 'package:final_project/models/kerjakan_soal_list.dart';
 import 'package:final_project/models/network_response.dart';
 import 'package:final_project/repository/latihan_soal_api.dart';
@@ -48,8 +49,20 @@ class _KerjakanLatihanState extends State<KerjakanLatihan>
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                primary: R.colors.primary,
+                fixedSize: const Size(120, 33),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
               onPressed: () {},
-              child: Text("Selanjutnya"),
+              child: const Text(
+                "Selanjutnya",
+                style: TextStyle(
+                  fontSize: 15,
+                ),
+              ),
             ),
           ],
         ),
@@ -68,7 +81,7 @@ class _KerjakanLatihanState extends State<KerjakanLatihan>
                       soalList!.data!.length,
                       (index) => Text(
                         '${index + 1}',
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: Colors.black,
                         ),
                       ),
@@ -87,11 +100,25 @@ class _KerjakanLatihanState extends State<KerjakanLatihan>
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text("Soal No ${index + 1}"),
+                              Text(
+                                "Soal No ${index + 1}",
+                                style: TextStyle(
+                                  color: R.colors.greySubtitleHome,
+                                  fontSize: 15,
+                                ),
+                              ),
                               if (soalList!.data![index].questionTitle != null)
                                 Html(
-                                    data:
-                                        soalList!.data![index].questionTitle!),
+                                  data: soalList!.data![index].questionTitle,
+                                  style: {
+                                    "body": Style(
+                                      padding: EdgeInsets.zero,
+                                    ),
+                                    "p": Style(
+                                      fontSize: const FontSize(13),
+                                    )
+                                  },
+                                ),
                               if (soalList!.data![index].questionTitleImg !=
                                   null)
                                 Image.network(
@@ -99,29 +126,34 @@ class _KerjakanLatihanState extends State<KerjakanLatihan>
 
                               // menampilkan pilihan jawaban
                               _buildOption(
-                                "A. ",
+                                "A.",
                                 soalList!.data![index].optionA,
                                 soalList!.data![index].optionAImg,
+                                index,
                               ),
                               _buildOption(
-                                "B. ",
+                                "B.",
                                 soalList!.data![index].optionB,
                                 soalList!.data![index].optionBImg,
+                                index,
                               ),
                               _buildOption(
-                                "C. ",
+                                "C.",
                                 soalList!.data![index].optionC,
                                 soalList!.data![index].optionCImg,
+                                index,
                               ),
                               _buildOption(
-                                "D. ",
+                                "D.",
                                 soalList!.data![index].optionD,
                                 soalList!.data![index].optionDImg,
+                                index,
                               ),
                               _buildOption(
-                                "E. ",
+                                "E.",
                                 soalList!.data![index].optionE,
                                 soalList!.data![index].optionEImg,
+                                index,
                               ),
                             ],
                           ),
@@ -135,14 +167,50 @@ class _KerjakanLatihanState extends State<KerjakanLatihan>
     );
   }
 
-  Container _buildOption(String option, String? answer, String? answerImg) {
-    return Container(
-      child: Row(
-        children: [
-          Text(option),
-          if (answer != null) Expanded(child: Html(data: answer)),
-          if (answerImg != null) Expanded(child: Image.network(answerImg)),
-        ],
+  Widget _buildOption(
+    String option,
+    String? answer,
+    String? answerImg,
+    int index,
+  ) {
+    final answerCheck = soalList!.data![index].studentAnswer == option;
+    return GestureDetector(
+      onTap: () {
+        soalList!.data![index].studentAnswer = option;
+        setState(() {});
+      },
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+        margin: const EdgeInsets.symmetric(vertical: 2.0),
+        decoration: BoxDecoration(
+          color: answerCheck ? Colors.blue.withOpacity(0.4) : Colors.white,
+          border: Border.all(
+            width: 1,
+            color: R.colors.blackLogin,
+          ),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Row(
+          children: [
+            Text(
+              option,
+              style: TextStyle(
+                color: answerCheck ? Colors.white : Colors.black,
+              ),
+            ),
+            if (answer != null)
+              Expanded(
+                  child: Html(
+                data: answer,
+                style: {
+                  "p": Style(
+                    color: answerCheck ? Colors.white : Colors.black,
+                  )
+                },
+              )),
+            if (answerImg != null) Expanded(child: Image.network(answerImg)),
+          ],
+        ),
       ),
     );
   }
