@@ -2,6 +2,7 @@ import 'package:final_project/models/kerjakan_soal_list.dart';
 import 'package:final_project/models/network_response.dart';
 import 'package:final_project/repository/latihan_soal_api.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 
 class KerjakanLatihan extends StatefulWidget {
   const KerjakanLatihan({Key? key, required this.id}) : super(key: key);
@@ -77,47 +78,53 @@ class _KerjakanLatihanState extends State<KerjakanLatihan>
                 // tabBar view soal dan jawaban
                 Expanded(
                   child: Container(
+                    padding: const EdgeInsets.all(8),
                     child: TabBarView(
                       controller: _controller,
                       children: List.generate(
                         soalList!.data!.length,
-                        (index) => Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text("Soal No ${index + 1}"),
-                            if (soalList!.data![index].questionTitle != null)
-                              Text(soalList!.data![index].questionTitle!),
-                            if (soalList!.data![index].questionTitleImg != null)
-                              Image.network(
-                                  soalList!.data![index].questionTitleImg!),
+                        (index) => SingleChildScrollView(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text("Soal No ${index + 1}"),
+                              if (soalList!.data![index].questionTitle != null)
+                                Html(
+                                    data:
+                                        soalList!.data![index].questionTitle!),
+                              if (soalList!.data![index].questionTitleImg !=
+                                  null)
+                                Image.network(
+                                    soalList!.data![index].questionTitleImg!),
 
-                            // menampilkan pilihan jawaban
-                            _buildOption(
-                              "A. ",
-                              soalList!.data![index].optionA,
-                              soalList!.data![index].optionAImg,
-                            ),
-                            _buildOption(
-                              "B. ",
-                              soalList!.data![index].optionB,
-                              soalList!.data![index].optionBImg,
-                            ),
-                            _buildOption(
-                              "C. ",
-                              soalList!.data![index].optionC,
-                              soalList!.data![index].optionCImg,
-                            ),
-                            _buildOption(
-                              "D. ",
-                              soalList!.data![index].optionD,
-                              soalList!.data![index].optionDImg,
-                            ),
-                            _buildOption(
-                              "E. ",
-                              soalList!.data![index].optionE,
-                              soalList!.data![index].optionEImg,
-                            ),
-                          ],
+                              // menampilkan pilihan jawaban
+                              _buildOption(
+                                "A. ",
+                                soalList!.data![index].optionA,
+                                soalList!.data![index].optionAImg,
+                              ),
+                              _buildOption(
+                                "B. ",
+                                soalList!.data![index].optionB,
+                                soalList!.data![index].optionBImg,
+                              ),
+                              _buildOption(
+                                "C. ",
+                                soalList!.data![index].optionC,
+                                soalList!.data![index].optionCImg,
+                              ),
+                              _buildOption(
+                                "D. ",
+                                soalList!.data![index].optionD,
+                                soalList!.data![index].optionDImg,
+                              ),
+                              _buildOption(
+                                "E. ",
+                                soalList!.data![index].optionE,
+                                soalList!.data![index].optionEImg,
+                              ),
+                            ],
+                          ),
                         ),
                       ).toList(),
                     ),
@@ -133,8 +140,8 @@ class _KerjakanLatihanState extends State<KerjakanLatihan>
       child: Row(
         children: [
           Text(option),
-          if (answer != null) Text(answer),
-          if (answerImg != null) Image.network(answerImg),
+          if (answer != null) Expanded(child: Html(data: answer)),
+          if (answerImg != null) Expanded(child: Image.network(answerImg)),
         ],
       ),
     );
