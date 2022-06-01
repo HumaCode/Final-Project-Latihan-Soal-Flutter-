@@ -90,6 +90,33 @@ class _KerjakanLatihanState extends State<KerjakanLatihan>
                             if (soalList!.data![index].questionTitleImg != null)
                               Image.network(
                                   soalList!.data![index].questionTitleImg!),
+
+                            // menampilkan pilihan jawaban
+                            _buildOption(
+                              "A. ",
+                              soalList!.data![index].optionA,
+                              soalList!.data![index].optionAImg,
+                            ),
+                            _buildOption(
+                              "B. ",
+                              soalList!.data![index].optionB,
+                              soalList!.data![index].optionBImg,
+                            ),
+                            _buildOption(
+                              "C. ",
+                              soalList!.data![index].optionC,
+                              soalList!.data![index].optionCImg,
+                            ),
+                            _buildOption(
+                              "D. ",
+                              soalList!.data![index].optionD,
+                              soalList!.data![index].optionDImg,
+                            ),
+                            _buildOption(
+                              "E. ",
+                              soalList!.data![index].optionE,
+                              soalList!.data![index].optionEImg,
+                            ),
                           ],
                         ),
                       ).toList(),
@@ -98,6 +125,18 @@ class _KerjakanLatihanState extends State<KerjakanLatihan>
                 ),
               ],
             ),
+    );
+  }
+
+  Container _buildOption(String option, String? answer, String? answerImg) {
+    return Container(
+      child: Row(
+        children: [
+          Text(option),
+          if (answer != null) Text(answer),
+          if (answerImg != null) Image.network(answerImg),
+        ],
+      ),
     );
   }
 }
