@@ -1,7 +1,9 @@
 import 'package:final_project/constant/r.dart';
+import 'package:final_project/helpers/user_email.dart';
 import 'package:final_project/models/kerjakan_soal_list.dart';
 import 'package:final_project/models/network_response.dart';
 import 'package:final_project/repository/latihan_soal_api.dart';
+import 'package:final_project/view/main/latihan_soal/result_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 
@@ -65,13 +67,49 @@ class _KerjakanLatihanState extends State<KerjakanLatihan>
                       if (_controller!.index == soalList!.data!.length - 1) {
                         final result = await showModalBottomSheet(
                             context: context,
+                            isScrollControlled: true,
+                            backgroundColor: Colors.transparent,
                             builder: (context) {
                               return BottomsheetConfirmation();
                             });
 
-                        print(result);
+                        // print(result);
                         if (result == true) {
-                          print("kirim ke backend");
+                          // print("kirim ke backend");
+                          List<String> answer = [];
+                          List<String> questionId = [];
+
+                          // ambil data dari jawaban user
+                          soalList!.data!.forEach((element) {
+                            questionId.add(element.bankQuestionId!);
+                            answer.add(element.studentAnswer!);
+                          });
+
+                          final payload = {
+                            "user_email": UserEmail.getUserEmail(),
+                            "exercise_id": widget.id,
+                            "bank_question_id": questionId,
+                            "student_answer": answer,
+                          };
+
+                          // print(payload);
+                          final result =
+                              await LatihanSoalApi().postStudentAnswer(payload);
+
+                          if (result.status == Status.success) {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => ResultPage(),
+                              ),
+                            );
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text(
+                                    "SUbmit Gagal, Silahkan ulangi lagi.."),
+                              ),
+                            );
+                          }
                         }
                       } else {
                         _controller!.animateTo(_controller!.index + 1);
@@ -252,43 +290,53 @@ class _BottomsheetConfirmationState extends State<BottomsheetConfirmation> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(20),
-      child: Column(
-        children: [
-          Container(
-            width: 100,
-            height: 5,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: R.colors.greySubtitle,
-            ),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: new BorderRadius.only(
+            topLeft: const Radius.circular(25.0),
+            topRight: const Radius.circular(25.0),
           ),
-          const SizedBox(height: 15),
-          Image.asset(R.assets.icConfirmation),
-          const Text("Kumpulkan Jawaban Sekarang.!"),
-          const Text("Boleh langsung kumpulin dong"),
-          Row(
-            children: [
-              Expanded(
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).pop(false);
-                  },
-                  child: const Text("Nanti Dulu."),
-                ),
+        ),
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              width: 100,
+              height: 5,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: R.colors.greySubtitle,
               ),
-              const SizedBox(width: 15),
-              Expanded(
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).pop(true);
-                  },
-                  child: const Text("Ya, Kumpulkan."),
+            ),
+            const SizedBox(height: 15),
+            Image.asset(R.assets.icConfirmation),
+            const Text("Kumpulkan Jawaban Sekarang.!"),
+            const Text("Boleh langsung kumpulin dong"),
+            Row(
+              children: [
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context).pop(false);
+                    },
+                    child: const Text("Nanti Dulu."),
+                  ),
                 ),
-              ),
-            ],
-          )
-        ],
+                const SizedBox(width: 15),
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context).pop(true);
+                    },
+                    child: const Text("Ya, Kumpulkan."),
+                  ),
+                ),
+              ],
+            )
+          ],
+        ),
       ),
     );
   }

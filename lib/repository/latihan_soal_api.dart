@@ -84,7 +84,7 @@ class LatihanSoalApi {
     return result;
   }
 
-  // mengambil sial berdasarkan id
+  // mengambil soal berdasarkan id
   Future<NetworkResponse> postQuestionList(id) async {
     final result = await _postRequest(
       endpoint: ApiUrl.latihanKerjakanSoal,
@@ -92,6 +92,15 @@ class LatihanSoalApi {
         "exercise_id": id,
         "user_email": UserEmail.getUserEmail(),
       },
+    );
+    return result;
+  }
+
+  // mengambil jawaban user
+  Future<NetworkResponse> postStudentAnswer(payload) async {
+    final result = await _postRequest(
+      endpoint: ApiUrl.latihanSubmitJawaban,
+      body: payload,
     );
     return result;
   }
