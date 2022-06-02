@@ -16,5 +16,5 @@ TextStyle profile2 = const TextStyle(fontSize: 16);
 TextStyle profile3 = TextStyle(color: R.colors.greySubtitle, fontSize: 13);
 TextStyle profile4 = const TextStyle(fontSize: 14);
 
-TextStyle user = const TextStyle(
+TextStyle userProfil = const TextStyle(
     fontSize: 20, color: Colors.white, fontWeight: FontWeight.w400);
