@@ -12,4 +12,5 @@ class Assets {
   String imgBanner = "assets/img_banner.png";
   String icNote = "assets/ic_note.png";
   String icProfile = "assets/ic_profile.png";
+  String icConfirmation = "assets/img_success.png";
 }

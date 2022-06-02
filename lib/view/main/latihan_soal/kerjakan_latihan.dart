@@ -24,6 +24,9 @@ class _KerjakanLatihanState extends State<KerjakanLatihan>
       soalList = KerjakanSoalList.fromJson(result.data!);
       // tab controller
       _controller = TabController(length: soalList!.data!.length, vsync: this);
+      _controller!.addListener(() {
+        setState(() {});
+      });
       setState(() {});
     }
   }
@@ -44,29 +47,48 @@ class _KerjakanLatihanState extends State<KerjakanLatihan>
       appBar: AppBar(
         title: const Text("Latihan Soal"),
       ),
-      bottomNavigationBar: Container(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                primary: R.colors.primary,
-                fixedSize: const Size(120, 33),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-              onPressed: () {},
-              child: const Text(
-                "Selanjutnya",
-                style: TextStyle(
-                  fontSize: 15,
-                ),
+      bottomNavigationBar: _controller == null
+          ? const SizedBox(height: 0)
+          : Container(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: R.colors.primary,
+                      fixedSize: const Size(120, 33),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    onPressed: () async {
+                      if (_controller!.index == soalList!.data!.length - 1) {
+                        final result = await showModalBottomSheet(
+                            context: context,
+                            builder: (context) {
+                              return BottomsheetConfirmation();
+                            });
+
+                        print(result);
+                        if (result == true) {
+                          print("kirim ke backend");
+                        }
+                      } else {
+                        _controller!.animateTo(_controller!.index + 1);
+                      }
+                    },
+                    child: Text(
+                      _controller?.index == soalList!.data!.length - 1
+                          ? "Selesai"
+                          : "Selanjutnya",
+                      style: const TextStyle(
+                        fontSize: 15,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
-      ),
       body: soalList == null
           ? const Center(
               child: CircularProgressIndicator(),
@@ -211,6 +233,62 @@ class _KerjakanLatihanState extends State<KerjakanLatihan>
             if (answerImg != null) Expanded(child: Image.network(answerImg)),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class BottomsheetConfirmation extends StatefulWidget {
+  const BottomsheetConfirmation({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  State<BottomsheetConfirmation> createState() =>
+      _BottomsheetConfirmationState();
+}
+
+class _BottomsheetConfirmationState extends State<BottomsheetConfirmation> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(20),
+      child: Column(
+        children: [
+          Container(
+            width: 100,
+            height: 5,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: R.colors.greySubtitle,
+            ),
+          ),
+          const SizedBox(height: 15),
+          Image.asset(R.assets.icConfirmation),
+          const Text("Kumpulkan Jawaban Sekarang.!"),
+          const Text("Boleh langsung kumpulin dong"),
+          Row(
+            children: [
+              Expanded(
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(false);
+                  },
+                  child: const Text("Nanti Dulu."),
+                ),
+              ),
+              const SizedBox(width: 15),
+              Expanded(
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(true);
+                  },
+                  child: const Text("Ya, Kumpulkan."),
+                ),
+              ),
+            ],
+          )
+        ],
       ),
     );
   }
