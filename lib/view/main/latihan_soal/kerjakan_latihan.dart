@@ -99,7 +99,8 @@ class _KerjakanLatihanState extends State<KerjakanLatihan>
                           if (result.status == Status.success) {
                             Navigator.of(context).push(
                               MaterialPageRoute(
-                                builder: (context) => ResultPage(),
+                                builder: (context) =>
+                                    ResultPage(exerciseId: widget.id),
                               ),
                             );
                           } else {

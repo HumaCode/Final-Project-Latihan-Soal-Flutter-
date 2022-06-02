@@ -84,6 +84,18 @@ class LatihanSoalApi {
     return result;
   }
 
+  // pemanggilan appi get result
+  Future<NetworkResponse> getResult(id) async {
+    final result = await _getRequest(
+      endpoint: ApiUrl.latihanSkor,
+      param: {
+        "exercise_id": id,
+        "user_email": UserEmail.getUserEmail(),
+      },
+    );
+    return result;
+  }
+
   // mengambil soal berdasarkan id
   Future<NetworkResponse> postQuestionList(id) async {
     final result = await _postRequest(
