@@ -3,6 +3,7 @@ import 'package:final_project/constant/r.dart';
 import 'package:final_project/helpers/preference_helper.dart';
 import 'package:final_project/models/user_by_email.dart';
 import 'package:final_project/view/login_page.dart';
+import 'package:final_project/view/main/profile/edit_profile_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -38,20 +39,12 @@ class _ProfilePageState extends State<ProfilePage> {
         centerTitle: true,
         actions: [
           TextButton(
-            onPressed: () async {
-              if (kIsWeb) {
-                await GoogleSignIn(
-                        clientId:
-                            "189971851302-m8lv2ir9q2d2gueolc6t7kcjclhk37e0.apps.googleusercontent.com")
-                    .signOut();
-              } else {
-                await GoogleSignIn().signOut();
-              }
-
-              await FirebaseAuth.instance.signOut();
-
-              Navigator.of(context)
-                  .pushNamedAndRemoveUntil(LoginPage.route, (route) => false);
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => EditProfilePage(),
+                ),
+              );
             },
             child: Text("Edit", style: profile),
           )
