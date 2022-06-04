@@ -68,4 +68,13 @@ class AuthApi {
     );
     return result;
   }
+
+  // edit profile
+  Future<NetworkResponse> postUpdateUser(body) async {
+    final result = await _postRequest(
+      endpoint: ApiUrl.userUpdateProfile,
+      body: body,
+    );
+    return result;
+  }
 }

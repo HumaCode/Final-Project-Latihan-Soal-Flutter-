@@ -39,12 +39,16 @@ class _ProfilePageState extends State<ProfilePage> {
         centerTitle: true,
         actions: [
           TextButton(
-            onPressed: () {
-              Navigator.of(context).push(
+            onPressed: () async {
+              final result = await Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (context) => EditProfilePage(),
                 ),
               );
+
+              if (result == true) {
+                getUserData();
+              }
             },
             child: Text("Edit", style: profile),
           )
