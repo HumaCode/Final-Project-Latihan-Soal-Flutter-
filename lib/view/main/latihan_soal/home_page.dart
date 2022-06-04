@@ -372,13 +372,31 @@ class MapelWidget extends StatelessWidget {
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    Container(
-                      height: 10,
-                      width: MediaQuery.of(context).size.width * 0.4,
-                      decoration: BoxDecoration(
-                        color: R.colors.primary,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
+                    Row(
+                      children: [
+                        Expanded(
+                          flex: totalDone!,
+                          child: Container(
+                            height: 10,
+                            // width: MediaQuery.of(context).size.width * 0.4,
+                            decoration: BoxDecoration(
+                              color: R.colors.primary,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          flex: totalPacket! - totalDone!,
+                          child: Container(
+                              // height: 10,
+                              // width: MediaQuery.of(context).size.width * 0.4,
+                              // decoration: BoxDecoration(
+                              //   color: R.colors.primary,
+                              //   borderRadius: BorderRadius.circular(10),
+                              // ),
+                              ),
+                        ),
+                      ],
                     )
                   ],
                 )
