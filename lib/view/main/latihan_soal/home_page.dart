@@ -1,7 +1,9 @@
 import 'package:final_project/constant/r.dart';
+import 'package:final_project/helpers/preference_helper.dart';
 import 'package:final_project/models/banner_list.dart';
 import 'package:final_project/models/mapel_list.dart';
 import 'package:final_project/models/network_response.dart';
+import 'package:final_project/models/user_by_email.dart';
 import 'package:final_project/repository/latihan_soal_api.dart';
 import 'package:final_project/view/main/latihan_soal/mapel_page.dart';
 import 'package:final_project/view/main/latihan_soal/paket_soal_page.dart';
@@ -66,6 +68,12 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  UserData? dataUser;
+  Future getUserData() async {
+    dataUser = await PreferenceHelper().getUserData();
+    setState(() {});
+  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -73,6 +81,7 @@ class _HomePageState extends State<HomePage> {
     getMapel();
     getBanner();
     setupFcm();
+    getUserData();
   }
 
   @override
@@ -265,7 +274,7 @@ class _HomePageState extends State<HomePage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Hi, Nama User",
+                  "Hi, " + (dataUser?.userName ?? "Nama User"),
                   style: GoogleFonts.poppins().copyWith(
                     fontSize: 12,
                     fontWeight: FontWeight.w700,
