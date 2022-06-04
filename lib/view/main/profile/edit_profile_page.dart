@@ -37,9 +37,14 @@ class _EditProfilePageState extends State<EditProfilePage> {
     setState(() {});
   }
 
-  initDataUser() {
+  initDataUser() async {
     emailController.text = UserEmail.getUserEmail()!;
-    fullNameController.text = UserEmail.getUserDispayName()!;
+    // fullNameController.text = UserEmail.getUserDispayName()!;
+
+    final dataUser = await PreferenceHelper().getUserData();
+    fullNameController.text = dataUser!.userName!;
+    schoolNameController.text = dataUser.userAsalSekolah!;
+    gender = dataUser.userGender!;
     setState(() {});
   }
 
