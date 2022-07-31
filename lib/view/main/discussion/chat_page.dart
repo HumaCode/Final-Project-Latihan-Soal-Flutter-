@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:clipboard/clipboard.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:final_project/constant/constant.dart';
 import 'package:final_project/constant/r.dart';
@@ -68,7 +69,9 @@ class _ChatPageState extends State<ChatPage> {
                       AsyncSnapshot<QuerySnapshot<Object?>> snapshot) {
                     // jika tidak ada data tampilkan proggressbar
                     if (!snapshot.hasData) {
-                      return const CircularProgressIndicator();
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
                     }
                     return ListView.builder(
                         itemCount: snapshot.data!.docs.reversed.length,
@@ -92,40 +95,85 @@ class _ChatPageState extends State<ChatPage> {
                                   currentChat["nama"],
                                   style: chating,
                                 ),
-                                Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 10.0, vertical: 4.0),
-                                  decoration: BoxDecoration(
-                                    color: user.uid == currentChat["uid"]
-                                        ? Colors.blue[200]
-                                        : R.colors.pink,
-                                    borderRadius: BorderRadius.only(
-                                      bottomLeft: const Radius.circular(10),
-                                      bottomRight:
-                                          user.uid == currentChat["uid"]
-                                              ? const Radius.circular(0)
-                                              : const Radius.circular(10),
-                                      topRight: const Radius.circular(10),
-                                      topLeft: user.uid != currentChat["uid"]
-                                          ? const Radius.circular(0)
-                                          : const Radius.circular(10),
+                                GestureDetector(
+                                  onLongPress: () {
+                                    showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return AlertDialog(
+                                            content: Container(
+                                              child: Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  ListTile(
+                                                    title: Text("Salin"),
+                                                    onTap: () {
+                                                      Navigator.pop(context);
+                                                      FlutterClipboard.copy(
+                                                              currentChat[
+                                                                  "content"])
+                                                          .then(
+                                                        (value) =>
+                                                            ScaffoldMessenger
+                                                                    .of(context)
+                                                                .showSnackBar(
+                                                          SnackBar(
+                                                            content: Text(
+                                                                "Text Berhasil Disalin"),
+                                                          ),
+                                                        ),
+                                                      );
+                                                    },
+                                                  ),
+                                                  if (user.uid ==
+                                                      currentChat["uid"])
+                                                    ListTile(
+                                                      title: Text("Hapus"),
+                                                      onTap: () {},
+                                                    ),
+                                                ],
+                                              ),
+                                            ),
+                                          );
+                                        });
+                                  },
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 10.0, vertical: 4.0),
+                                    decoration: BoxDecoration(
+                                      color: user.uid == currentChat["uid"]
+                                          ? Colors.blue[200]
+                                          : R.colors.pink,
+                                      borderRadius: BorderRadius.only(
+                                        bottomLeft: const Radius.circular(10),
+                                        bottomRight:
+                                            user.uid == currentChat["uid"]
+                                                ? const Radius.circular(0)
+                                                : const Radius.circular(10),
+                                        topRight: const Radius.circular(10),
+                                        topLeft: user.uid != currentChat["uid"]
+                                            ? const Radius.circular(0)
+                                            : const Radius.circular(10),
+                                      ),
                                     ),
+                                    child: currentChat["type"] == "file"
+                                        ? Image.network(
+                                            currentChat["file_url"],
+                                            errorBuilder:
+                                                (context, error, stackTrace) {
+                                              return Container(
+                                                padding:
+                                                    const EdgeInsets.all(10),
+                                                child:
+                                                    const Icon(Icons.warning),
+                                              );
+                                            },
+                                          )
+                                        : Text(
+                                            currentChat["content"],
+                                            style: profile2,
+                                          ),
                                   ),
-                                  child: currentChat["type"] == "file"
-                                      ? Image.network(
-                                          currentChat["file_url"],
-                                          errorBuilder:
-                                              (context, error, stackTrace) {
-                                            return Container(
-                                              padding: const EdgeInsets.all(10),
-                                              child: const Icon(Icons.warning),
-                                            );
-                                          },
-                                        )
-                                      : Text(
-                                          currentChat["content"],
-                                          style: profile2,
-                                        ),
                                 ),
                                 Text(
                                   currentDate == null
@@ -213,6 +261,7 @@ class _ChatPageState extends State<ChatPage> {
                                             "file_url": url,
                                             "time":
                                                 FieldValue.serverTimestamp(),
+                                            "is_delete": false
                                           };
                                           chat
                                               .add(chatContent)
@@ -264,6 +313,7 @@ class _ChatPageState extends State<ChatPage> {
                           "type": "text",
                           "file_url": null,
                           "time": FieldValue.serverTimestamp(),
+                          "is_delete": false
                         };
                         chat.add(chatContent).whenComplete(() {
                           textController.clear();
