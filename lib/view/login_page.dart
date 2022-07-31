@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:final_project/constant/constant.dart';
 import 'package:final_project/constant/r.dart';
 import 'package:final_project/helpers/preference_helper.dart';
@@ -132,24 +134,25 @@ class _LoginPageState extends State<LoginPage> {
                 ],
               ),
             ),
-            ButtonLogin(
-              onTap: () {},
-              backgroundColor: R.colors.blackLogin,
-              borderColor: R.colors.blackLogin,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset(R.assets.icApple),
-                  const SizedBox(width: 15),
-                  Text(
-                    R.strings.loginWithAppleId,
-                    style: buttonLogin.copyWith(
-                      color: Colors.white,
+            if (Platform.isIOS)
+              ButtonLogin(
+                onTap: () {},
+                backgroundColor: R.colors.blackLogin,
+                borderColor: R.colors.blackLogin,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(R.assets.icApple),
+                    const SizedBox(width: 15),
+                    Text(
+                      R.strings.loginWithAppleId,
+                      style: buttonLogin.copyWith(
+                        color: Colors.white,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
           ],
         ),
       ),
